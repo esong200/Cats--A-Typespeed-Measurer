@@ -111,7 +111,17 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     than LIMIT.
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    min_diff = diff_function(user_word,valid_words[0],limit) #initialize min_diff to the first difference in the given array
+    return_value = valid_words[0]
+    for word in valid_words:
+        if user_word == word:
+            return user_word
+        elif (diff_function(user_word, word, limit) < min_diff):
+            min_diff = diff_function(user_word, word, limit)
+            return_value = word
+    if min_diff<=limit:
+        return return_value
+    return user_word
     # END PROBLEM 5
 
 
@@ -121,7 +131,30 @@ def shifty_shifts(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    return_value = 0
+    short_len = min(len(start),len(goal))
+    long_len = max(len(start),len(goal))
+    """for i in range(0,short_len):
+        if start[i] != goal[i]:
+            return_value += 1
+            if return_value > limit:
+                return limit+1
+    if return_value > limit:
+        return limit+1
+    if len(start) != len(goal):
+        return return_value + long_len-short_len
+    return return_value """
+    if limit == -1:
+        return 999999
+    if len(start) == 0 or len(goal) == 0:
+        if len(start) > 0:
+            return len(start)
+        elif len(goal) > 0:
+            return len(goal)
+        return 0   
+    if start[0] != goal[0]:
+        return 1 + shifty_shifts(start[1:],goal[1:],limit-1)
+    return shifty_shifts(start[1:],goal[1:],limit)
     # END PROBLEM 6
 
 
