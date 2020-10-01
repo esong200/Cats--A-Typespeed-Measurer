@@ -161,23 +161,28 @@ def shifty_shifts(start, goal, limit):
 def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
 
-    if start == goal: # Fill in the condition
+    if start == goal: #If the words are already equal, return 0
         # BEGIN
         return 0
         # END
-    elif len(start) == 0 or len(goal) == 0:
+    elif len(start) == 0 or len(goal) == 0: #if after loping off characters, one of them becomes 0 lengthed
+        #return the length of the non-zero word, since that's how far off they are
         if len(start) > 0:
             return len(start)
         elif len(goal) > 0:
             return len(goal)
+        #if both are zero, return 1
         return 1  
-    elif limit == -1: # Feel free to remove or add additional cases
+    elif limit == -1: #If limit has already been reached, return arbitrarily large number
         # BEGIN
         return 999999
         # END
-    else:
+    else: #branch out to three cases: add, take, or substiture a char
+
+        # only check first letters if we're substituting, since if we're loping off the same
+        # character in front, since this means that there aren't any actual substitutions to make, thus.
+        # there is a posibility of not adding 1 step 
         if start[0]!=goal[0]:
-            #print("DEBUG: ", start[0], " and ", goal[0], "ARE DIFF!!")
             substitute_diff = 1 + pawssible_patches(start[1:], goal[1:], limit-1)
         else:
             substitute_diff = pawssible_patches(start[1:], goal[1:], limit)
@@ -202,7 +207,14 @@ def final_diff(start, goal, limit):
 def report_progress(typed, prompt, user_id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    corect_words = 0
+    for i in range(0,len(typed)):
+        if typed[i] != prompt[i]:
+            break
+        corect_words += 1
+    progress = corect_words/len(prompt)
+    send({'id' : user_id, 'progress' : progress}) #dictionary object
+    return progress
     # END PROBLEM 8
 
 
