@@ -240,7 +240,13 @@ def time_per_word(times_per_player, words):
         words: a list of words, in the order they are typed.
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    times = []
+    for player in times_per_player:
+        player_times = []
+        for i in range(1,len(player)):
+            player_times.append(player[i]-player[i-1])
+        times.append(player_times)
+    return game(words, times)
     # END PROBLEM 9
 
 
@@ -255,7 +261,27 @@ def fastest_words(game):
     player_indices = range(len(all_times(game)))  # contains an *index* for each player
     word_indices = range(len(all_words(game)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    return_value = []
+    for player in player_indices:
+        return_value.append([])
+    print("DEBUG:", return_value)
+    for i in word_indices:
+        min_time = 9999999
+        fastest_player = 0
+        for j in player_indices:
+            """if game[1][j][i]<min_time:
+                min_time = game[1][j][i]
+                fastest_player = j"""
+            if time(game,j,i)<min_time:
+                min_time = time(game,j,i)
+                fastest_player = j
+        print("DEBUG: Fastest player: ", fastest_player, " Word: ", word_at(game,i))
+        return_value[fastest_player].append(word_at(game,i)) #append ith word (game[0][i]) to the fastest player j
+    return return_value
+                
+        
+
+
     # END PROBLEM 10
 
 
@@ -295,7 +321,7 @@ def game_string(game):
     """A helper function that takes in a game object and returns a string representation of it"""
     return "game(%s, %s)" % (game[0], game[1])
 
-enable_multiplayer = False  # Change to True when you're ready to race.
+enable_multiplayer = True  # Change to True when you're ready to race.
 
 ##########################
 # Command Line Interface #
